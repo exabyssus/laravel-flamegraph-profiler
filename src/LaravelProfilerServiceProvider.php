@@ -9,6 +9,7 @@ use Exabyssus\LaravelProfiler\Support\FileProfileStore;
 use Exabyssus\LaravelProfiler\Support\FlamegraphBuilder;
 use Exabyssus\LaravelProfiler\Support\ProfileRecorder;
 use Exabyssus\LaravelProfiler\Support\ProfileStore;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -68,11 +69,11 @@ class LaravelProfilerServiceProvider extends ServiceProvider
                 require __DIR__.'/../routes/web.php';
             });
 
-        /** @var Router $router */
-        $router = $this->app->make('router');
+        /** @var \Illuminate\Foundation\Http\Kernel $kernel */
+        $kernel = $this->app->make(Kernel::class);
 
-        $router->pushMiddlewareToGroup('web', CaptureProfiler::class);
-        $router->pushMiddlewareToGroup('api', CaptureProfiler::class);
+        $kernel->appendMiddlewareToGroup('web', CaptureProfiler::class);
+        $kernel->appendMiddlewareToGroup('api', CaptureProfiler::class);
 
         $throttleMs = (float) config('laravel-profiler.db_throttle_ms', 0);
 

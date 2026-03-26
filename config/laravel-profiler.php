@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'enabled' => (bool) env('LARAVEL_PROFILER_ENABLED', true),
+    'enabled' => (bool) env('LARAVEL_PROFILER_ENABLED', false),
 
     'allowed_environments' => array_values(array_filter(array_map(
         static fn (string $environment): string => trim($environment),
