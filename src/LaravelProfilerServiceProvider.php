@@ -9,7 +9,6 @@ use Exabyssus\LaravelProfiler\Support\FileProfileStore;
 use Exabyssus\LaravelProfiler\Support\FlamegraphBuilder;
 use Exabyssus\LaravelProfiler\Support\ProfileRecorder;
 use Exabyssus\LaravelProfiler\Support\ProfileStore;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -60,20 +59,10 @@ class LaravelProfilerServiceProvider extends ServiceProvider
                 require __DIR__.'/../routes/web.php';
             });
 
-        $this->app->booted(function (): void {
-            /** @var Router $router */
-            $router = $this->app->make('router');
+        /** @var Router $router */
+        $router = $this->app->make('router');
 
-            foreach ($router->getRoutes()->getRoutes() as $route) {
-                $middleware = $route->middleware();
-
-                if (
-                    ! in_array(CaptureProfiler::class, $middleware, true)
-                    && array_intersect(['web', 'api'], $middleware) !== []
-                ) {
-                    $route->middleware(CaptureProfiler::class);
-                }
-            }
-        });
+        $router->pushMiddlewareToGroup('web', CaptureProfiler::class);
+        $router->pushMiddlewareToGroup('api', CaptureProfiler::class);
     }
 }
