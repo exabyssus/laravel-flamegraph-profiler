@@ -18,6 +18,8 @@ return [
 
     'index_limit' => (int) env('LARAVEL_PROFILER_INDEX_LIMIT', 50),
 
+    'db_throttle_ms' => (float) env('LARAVEL_PROFILER_DB_THROTTLE_MS', 0),
+
     'excimer' => [
         'sample_period' => (float) env('LARAVEL_PROFILER_EXCIMER_SAMPLE_PERIOD', 0.001),
         'max_depth' => (int) env('LARAVEL_PROFILER_EXCIMER_MAX_DEPTH', 250),

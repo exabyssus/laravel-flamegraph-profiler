@@ -161,8 +161,6 @@ class ProfileRecorder
             $rawSql = $query->sql;
         }
 
-        $this->currentSession->queryCount++;
-        $this->currentSession->queryTimeMs += $durationMs;
         $this->currentSession->spans[] = [
             'type' => 'db',
             'label' => Str::limit($rawSql, 140),

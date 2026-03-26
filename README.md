@@ -61,6 +61,7 @@ All options can be set via environment variables:
 | `LARAVEL_PROFILER_TTL_MINUTES` | `15` | How long profiles are kept |
 | `LARAVEL_PROFILER_MAX_ENTRIES` | `200` | Maximum number of stored profiles |
 | `LARAVEL_PROFILER_INDEX_LIMIT` | `50` | Number of profiles shown on the dashboard |
+| `LARAVEL_PROFILER_DB_THROTTLE_MS` | `0` | Artificial delay (ms) added after each DB query to simulate network latency |
 | `LARAVEL_PROFILER_EXCIMER_SAMPLE_PERIOD` | `0.001` | Excimer sampling interval in seconds |
 | `LARAVEL_PROFILER_EXCIMER_MAX_DEPTH` | `250` | Maximum call stack depth for Excimer |
 

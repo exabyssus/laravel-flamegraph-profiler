@@ -9,6 +9,7 @@ use Exabyssus\LaravelProfiler\Support\FileProfileStore;
 use Exabyssus\LaravelProfiler\Support\FlamegraphBuilder;
 use Exabyssus\LaravelProfiler\Support\ProfileRecorder;
 use Exabyssus\LaravelProfiler\Support\ProfileStore;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +18,10 @@ class LaravelProfilerServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-profiler.php', 'laravel-profiler');
+
+        if (! $this->isEnabled()) {
+            return;
+        }
 
         $this->app->singleton(ProfileStore::class, function ($app): FileProfileStore {
             return new FileProfileStore(
@@ -46,6 +51,10 @@ class LaravelProfilerServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if (! $this->isEnabled()) {
+            return;
+        }
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-profiler');
 
         $this->publishes([
@@ -64,5 +73,19 @@ class LaravelProfilerServiceProvider extends ServiceProvider
 
         $router->pushMiddlewareToGroup('web', CaptureProfiler::class);
         $router->pushMiddlewareToGroup('api', CaptureProfiler::class);
+
+        $throttleMs = (float) config('laravel-profiler.db_throttle_ms', 0);
+
+        if ($throttleMs > 0) {
+            DB::listen(function () use ($throttleMs): void {
+                usleep((int) ($throttleMs * 1000));
+            });
+        }
+    }
+
+    private function isEnabled(): bool
+    {
+        return config('laravel-profiler.enabled', true)
+            && $this->app->environment(config('laravel-profiler.allowed_environments', ['local', 'development']));
     }
 }
