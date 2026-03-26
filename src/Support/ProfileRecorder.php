@@ -173,6 +173,9 @@ class ProfileRecorder
             ],
         ];
 
+        $this->currentSession->queryCount++;
+        $this->currentSession->queryTimeMs += $durationMs;
+
         return true;
     }
 }
