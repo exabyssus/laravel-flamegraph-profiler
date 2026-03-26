@@ -1,0 +1,29 @@
+{
+    "name": "exabyssus/laravel-profiler",
+    "description": "Local development request profiler for Laravel with temporary storage and Excimer flamegraph support.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3 || ^8.4",
+        "illuminate/database": "^12.0",
+        "illuminate/filesystem": "^12.0",
+        "illuminate/http": "^12.0",
+        "illuminate/routing": "^12.0",
+        "illuminate/support": "^12.0",
+        "illuminate/view": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Exabyssus\\LaravelProfiler\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Exabyssus\\LaravelProfiler\\LaravelProfilerServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
