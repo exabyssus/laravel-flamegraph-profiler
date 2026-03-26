@@ -1,5 +1,5 @@
 {
-    "name": "exabyssus/laravel-profiler",
+    "name": "exabyssus/laravel-flamegraph-profiler",
     "description": "Local development request profiler for Laravel with temporary storage and Excimer flamegraph support.",
     "type": "library",
     "license": "MIT",
